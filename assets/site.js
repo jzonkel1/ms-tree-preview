@@ -107,7 +107,7 @@ f.addEventListener('submit',function(e){e.preventDefault();if(cur<N)return;var o
   var ev=em.value.trim(),eok=!ev||/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(ev);f.querySelector('.f-email').classList.toggle('bad',!eok);if(!eok)ok=false;
   if(!ok){var b=f.querySelector('.fld.bad input');if(b)b.focus();return}
   btn.disabled=true;var old=bl.textContent;bl.textContent='Sending…';err.hidden=true;
-  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()})
+  fetch('/ms-tree-preview/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()})
   .then(function(r){if(!r.ok)throw new Error(r.status);location.href='/ms-tree-preview/thank-you/'})
   .catch(function(){btn.disabled=false;bl.textContent=old;err.hidden=false});
 });
