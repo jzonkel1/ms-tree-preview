@@ -1,0 +1,112 @@
+/* ================= 10/8 round 2 (Jeffrey's review) ================= */
+/* FREE sticker rides the corner of the hero wizard (Jeffrey: keep the badge) */
+.hf-card{position:relative;width:100%}
+.sticker.sticker-form{display:none}
+@media (min-width:1100px){
+  .hero-wiz .sticker.sticker-form{display:grid;position:absolute;top:-62px;left:-70px;right:auto;width:132px;height:132px;z-index:3}
+  .sticker-form b{font-size:27px}
+  .sticker-form span{font-size:9.5px;margin-top:3px}
+  .sticker-form::after{inset:17px}
+  .qw-hero .qw-head{padding-left:62px}
+}
+
+/* estimate section: photo behind the dark green */
+.qbg{isolation:isolate;overflow:hidden}
+.qbg-img{position:absolute;inset:0;z-index:-2}
+.qbg-img img{width:100%;height:100%;object-fit:cover}
+.qbg::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(21,40,27,.94) 0%,rgba(21,40,27,.86) 45%,rgba(21,40,27,.72) 100%)}
+.qbg>.wrap{position:relative}
+
+/* bento gallery: best + biggest photos get the big tiles */
+.gal button img{object-fit:cover}
+@media (min-width:761px){
+  .gal{grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;grid-auto-flow:dense;gap:10px}
+  .gal button{aspect-ratio:auto;height:100%;border-radius:12px}
+  .gal .b-big{grid-column:span 2;grid-row:span 2}
+  .gal .b-wide{grid-column:span 2}
+  .gal .b-tall{grid-row:span 2}
+}
+@media (min-width:1280px){.gal.open{grid-template-columns:repeat(5,1fr);grid-auto-rows:210px}}
+@media (max-width:760px){
+  .gal.open{grid-auto-rows:150px;grid-auto-flow:dense;gap:8px}
+  .gal.open button{aspect-ratio:auto;height:100%}
+  .gal.open .b-big,.gal.open .b-wide{grid-column:span 2}
+  .gal.open .b-big{grid-row:span 2}
+  .gal.open .b-tall{grid-row:span 2}
+}
+
+/* reviews page */
+.rsum{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:24px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:24px 28px;box-shadow:var(--sh)}
+.rsum-score{display:flex;align-items:center;gap:16px}
+.rsum-score b{font:700 56px/1 var(--f-head);color:var(--forest)}
+.rsum-score .st{color:var(--gold);font-size:20px;letter-spacing:2px}
+.rsum-score span{color:var(--muted);font-size:14.5px}
+.rsum-bbb a,.ft .bbb{display:inline-flex;align-items:center;gap:12px;text-decoration:none;color:var(--forest)}
+.rsum-bbb b,.ft .bbb b{display:grid;place-items:center;width:52px;height:52px;border-radius:10px;background:var(--forest);color:var(--paper);font:700 22px var(--f-head)}
+.rsum-bbb span{font:600 15px var(--f-body)}
+.rnote{margin:22px 0 26px;text-align:center;color:var(--muted);font-size:14.5px}
+.rgrid{columns:3 300px;column-gap:18px}
+.rcard{break-inside:avoid;margin:0 0 18px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 22px 18px}
+.rcard .st{color:var(--gold);letter-spacing:2px}
+.rcard blockquote{margin:10px 0 0;font-size:15.5px;line-height:1.6;color:var(--ink)}
+.rcard figcaption{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:13.5px;color:var(--muted)}
+.rcard figcaption i{width:34px;height:34px;border-radius:50%;background:var(--forest);color:var(--paper);display:grid;place-items:center;font:700 15px var(--f-head);font-style:normal;flex:none}
+.rcard figcaption b{display:block;color:var(--ink);font-weight:600}
+
+/* footer BBB badge */
+.ft .bbb{margin-top:18px;color:var(--paper)}
+.ft .bbb b{background:var(--khaki-2);color:var(--forest);width:46px;height:46px;font-size:20px}
+.ft .bbb span{display:flex;flex-direction:column;font:600 14px var(--f-body);text-align:left}
+.ft .bbb em{font-style:normal;font-weight:400;font-size:12.5px;color:var(--khaki-2)}
+
+/* blog */
+.agrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.acard{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;text-decoration:none;box-shadow:var(--sh);transition:transform .25s ease}
+.acard:hover{transform:translateY(-4px)}
+.acard figure{margin:0;aspect-ratio:16/10;overflow:hidden}
+.acard figure img{width:100%;height:100%;object-fit:cover}
+.acard>div{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
+.adate{font:600 12px var(--f-body);letter-spacing:.12em;text-transform:uppercase;color:var(--forest-3)}
+.acard h3{font-size:23px;line-height:1.15;color:var(--forest);margin-top:8px}
+.acard p{color:var(--muted);font-size:15px;margin-top:8px;flex:1}
+.acard .more{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font:600 14.5px var(--f-body);color:var(--forest)}
+.acard .more svg{width:16px;height:16px}
+.art-top{height:96px}
+.art-h1{font-size:clamp(36px,4.4vw,56px);color:var(--forest);line-height:1.05}
+.art-by{margin-top:14px;color:var(--muted);font-size:14.5px}
+.art-fig{margin:28px 0 8px}
+.art-fig img{width:100%;border-radius:var(--r);aspect-ratio:16/10;object-fit:cover}
+.art h2{font-size:30px;color:var(--forest);margin-top:38px}
+.art ul{margin:16px 0 0;padding-left:22px;display:grid;gap:8px;color:#2f3b31;font-size:17px}
+.art .sources{font-size:14px;color:var(--muted);margin-top:30px}
+.art-cta{margin-top:34px;padding:20px 22px;border-radius:var(--r);background:var(--forest);color:var(--paper);display:grid;gap:6px}
+.art-cta b{font:700 21px var(--f-head)}
+.art-cta a{color:var(--khaki-2)}
+.updated{color:var(--muted);font-size:14px;margin-top:10px}
+
+.swipe-hint{display:none;align-items:center;justify-content:center;gap:8px;margin-top:14px;font-size:13.5px;color:rgba(236,231,218,.75)}
+.swipe-hint svg{width:16px;height:16px}
+.reels-track{touch-action:pan-y}
+
+@media (max-width:1040px){.agrid{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){
+  .agrid{grid-template-columns:1fr;max-width:480px;margin:0 auto}
+  .rsum{flex-direction:column;text-align:center}
+  .ft .bbb{justify-content:center}
+  .art-top{height:70px}
+  /* About points centered on phones (Jeffrey 10/8) */
+  .facts{display:flex;flex-direction:column;align-items:center;max-width:none}
+  .facts li{justify-content:center;text-align:center}
+  /* reviews: swipe instead of an auto-scrolling marquee */
+  .marquee{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-mask-image:none;mask-image:none;padding:0 20px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .marquee::-webkit-scrollbar{display:none}
+  .track{animation:none;gap:12px}
+  .track .rv{scroll-snap-align:center;width:82vw;max-width:330px}
+  .track .rv[aria-hidden]{display:none}
+  .swipe-hint{display:flex}
+  /* reels: arrows beside the clip, swipe still works */
+  .reels{grid-template-columns:1fr;position:relative}
+  .reels-vp{max-width:270px;margin:0 auto;width:100%}
+  .reels-nav{display:grid;position:absolute;top:calc(50% - 44px);z-index:2;width:42px;height:42px;background:rgba(247,244,236,.95);box-shadow:var(--sh)}
+  .reels-nav.prev{left:0}.reels-nav.next{right:0}
+}

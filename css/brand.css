@@ -1,0 +1,18 @@
+/* ================= Brand C (Jeffrey 10/8) =================
+   Headlines in the logo's poster serif (FB cover, business card); accents in the truck orange.
+   Abril only at headline sizes, never body or small UI text. */
+:root{--f-logo:"Abril Fatface",Georgia,serif;--truck:#D8691F;--truck-ink:#A04A14;--truck-lt:#F2A35E}
+h1,h2,.h2,.qw-title,.svc h3,.strip b{font-family:var(--f-logo);font-weight:400;letter-spacing:0}
+.sticker::before{background:var(--truck)}
+/* small text on cream uses the darker orange (4.5:1); the bright orange is for shapes and icons */
+.eyebrow{color:var(--truck-ink)}
+/* phone hero eyebrow stays forest: it sits over the photo */
+@media (max-width:760px){.hero .eyebrow{color:var(--forest)}}
+.eyebrow::before,.eyebrow::after{background:var(--truck)}
+.dark .eyebrow{color:var(--truck-lt)}
+.dark .eyebrow::before,.dark .eyebrow::after{background:var(--truck-lt)}
+.hero .tagline span+span::before,.dd-panel a::before{background:var(--truck)}
+.trust svg,.hero-call-d svg,.hdr-phone svg{color:var(--truck)}
+/* stats bar numbers stay khaki (Jeffrey 10/8) */
+/* FREE badge: even 16-point starburst (the demo's hand-drawn polygon had a lopsided point on the right) */
+.sticker::before{clip-path:polygon(50% 0%,58.29% 8.32%,69.13% 3.81%,73.61% 14.66%,85.36% 14.64%,85.34% 26.39%,96.19% 30.87%,91.68% 41.71%,100% 50%,91.68% 58.29%,96.19% 69.13%,85.34% 73.61%,85.36% 85.36%,73.61% 85.34%,69.13% 96.19%,58.29% 91.68%,50% 100%,41.71% 91.68%,30.87% 96.19%,26.39% 85.34%,14.64% 85.36%,14.66% 73.61%,3.81% 69.13%,8.32% 58.29%,0% 50%,8.32% 41.71%,3.81% 30.87%,14.66% 26.39%,14.64% 14.64%,26.39% 14.66%,30.87% 3.81%,41.71% 8.32%)}
