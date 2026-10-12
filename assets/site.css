@@ -848,7 +848,7 @@ h1,h2,.h2{text-wrap:balance}
 @media (min-width:761px){
   .phero::before{background:
     linear-gradient(90deg,rgba(236,231,218,.96) 0%,rgba(236,231,218,.92) 36%,rgba(236,231,218,.7) 50%,rgba(236,231,218,.12) 66%,rgba(236,231,218,0) 76%),
-    linear-gradient(180deg,rgba(236,231,218,.6) 0%,rgba(236,231,218,0) 16%,rgba(236,231,218,0) 84%,var(--paper) 100%)}
+    linear-gradient(180deg,rgba(236,231,218,.88) 0%,rgba(236,231,218,.6) 9%,rgba(236,231,218,0) 19%,rgba(236,231,218,0) 84%,var(--paper) 100%)}
 }
 
 /* photo CTA bands: let the photo through (was a near-solid green) */
@@ -877,6 +877,28 @@ h1,h2,.h2{text-wrap:balance}
 /* home hero: slide in without the opacity fade. Faded-out text isn't painted, so the fade was pushing
    the page's largest paint ~1.2s later on phones (Lighthouse LCP). The motion stays, the wait goes. */
 .hero .rv-up{opacity:1}
+
+/* round 6 (10/12 Jeffrey desktop review) */
+/* home hero, desktop: bigger copy that sits a touch higher than the wizard card; real buttons are back
+   (call + text a photo; the wizard beside them is the estimate action, so no "Get a free estimate" button here) */
+.btn-text-d{display:none}
+@media (min-width:1100px){
+  .hero-wiz .hero-in{max-width:660px;margin-top:-56px}
+  .hero-wiz h1{font-size:clamp(68px,6.9vw,108px)}
+  .hero-wiz .lede{font-size:20.5px;max-width:580px}
+  .hero-wiz .tagline{font-size:16px}
+  .hero-ctas{display:flex}
+  .hero-ctas .btn-quote-first{display:none}
+  .hero-ctas .btn-call-first{order:1;background:var(--forest);color:var(--paper);border-color:var(--forest);box-shadow:0 14px 30px -14px rgba(31,58,39,.85)}
+  .hero-ctas .btn-text-d{display:inline-flex;order:2}
+  .hero-call-d{display:none}
+}
+/* seven service cards: 4 + 3 on wide screens so Brush Hauling isn't alone on its own row */
+@media (min-width:1180px){
+  .svc-grid:has(>.svc:nth-child(7):last-child)>.svc{flex-basis:calc((100% - 66px)/4)}
+}
+/* reviews heading centres below 1040px: a centred eyebrow gets dashes on both sides */
+@media (max-width:1040px){.rv-head .eyebrow::after{display:block}}
 
 /* ================= Brand C (Jeffrey 10/8) =================
    Headlines in the logo's poster serif (FB cover, business card); accents in the truck orange.
