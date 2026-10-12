@@ -23,6 +23,26 @@ function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;
 R.forEach(function(r){h+='<article class="rv"><span class="st">★★★★★</span><p>'+esc(r.t)+'</p><footer><i>'+esc(r.n.charAt(0))+'</i><span><b>'+esc(r.n)+'</b> &middot; '+esc(r.d)+'</span></footer></article>'});
 t.innerHTML=h+h;t.querySelectorAll('.rv').forEach(function(a,i){if(i>=R.length)a.setAttribute('aria-hidden','true')})})();
 
+/* reviews on phones: slow drift (house pattern: rAF on a CSS var, the copies are the loop); a touch hands the row to
+   the thumb with no jump, and the drift picks up again 3.5s after the last touch or scroll */
+(function(){var row=document.querySelector('.marquee'),t=document.getElementById('track');if(!row||!t||!t.children.length)return;
+if(!matchMedia('(max-width:760px)').matches||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+row.classList.add('drift');
+var dx=0,last=0,held=false,resume=0,period=1,run=false;
+function per(){var c=t.querySelector('.rv[aria-hidden]');period=c?Math.max(1,c.offsetLeft-t.firstElementChild.offsetLeft):1}
+per();addEventListener('resize',per);
+function set(){row.style.setProperty('--dx',dx.toFixed(2))}
+function hand(){if(dx){row.scrollLeft+=dx;dx=0;set()}held=true}
+function rel(){held=false;resume=performance.now()+3500}
+row.addEventListener('touchstart',hand,{passive:true});row.addEventListener('pointerdown',hand);
+row.addEventListener('touchend',rel,{passive:true});row.addEventListener('pointerup',rel);row.addEventListener('pointercancel',rel);
+row.addEventListener('scroll',function(){if(!dx)resume=performance.now()+3500},{passive:true});
+function tick(n){if(!run){last=0;return}
+  if(!held&&n>resume){if(row.scrollLeft>0){dx=row.scrollLeft%period;row.scrollLeft=0}
+    if(last)dx+=(n-last)/1000*18;if(dx>=period)dx-=period;set()}
+  last=n;requestAnimationFrame(tick)}
+new IntersectionObserver(function(es){es.forEach(function(e){var was=run;run=e.isIntersecting;if(run&&!was)requestAnimationFrame(tick)})},{threshold:.3}).observe(row)})();
+
 /* gallery + lightbox */
 (function(){var g=document.getElementById('gal'),P=window.GAL||[];if(!g||!P.length)return;
 var lim=+g.dataset.limit||P.length,full=g.classList.contains('open');P=P.slice(0,Math.max(lim,full?P.length:lim));

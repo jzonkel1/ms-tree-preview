@@ -59,3 +59,34 @@
 }
 /* reviews heading centres below 1040px: a centred eyebrow gets dashes on both sides */
 @media (max-width:1040px){.rv-head .eyebrow::after{display:block}}
+
+/* round 7 (10/12 Jeffrey phone review) */
+@media (max-width:760px){
+  /* hero trust points: 2x2 instead of four stacked lines, so the headline drops back down onto the cream */
+  .hero .trust,.phero .trust{display:grid;grid-template-columns:repeat(2,auto);justify-content:center;justify-items:start;column-gap:18px;row-gap:9px;margin-top:20px}
+  .hero .trust li,.phero .trust li{font-size:13.5px;gap:6px}
+  .trust .g{display:none}
+  .hero{padding-bottom:34px}
+  /* the wash is measured up from the bottom of the hero (where the copy sits), not as a % of screen height,
+     so the headline lands on cream on a short phone and a tall one alike */
+  .hero::before{background:
+    linear-gradient(180deg,rgba(236,231,218,.85) 0,rgba(236,231,218,.5) 46px,rgba(236,231,218,0) 100px),
+    linear-gradient(0deg,var(--paper) 0,var(--paper) 340px,rgba(236,231,218,.9) 440px,rgba(236,231,218,.74) 540px,rgba(236,231,218,0) 660px)}
+  .hero h1,.hero .eyebrow,.hero .tagline{text-shadow:0 0 18px rgba(236,231,218,.95),0 0 4px rgba(236,231,218,.8)}
+  .hero h1 .boxed{text-shadow:none}
+}
+@media (max-width:370px){
+  .hero .trust,.phero .trust{column-gap:12px}
+  .hero .trust li,.phero .trust li{font-size:12.5px}
+}
+@media (max-width:400px){.hero .tagline{font-size:11.5px;letter-spacing:.075em;gap:4px 8px}.hero .tagline span+span::before{margin-right:8px}}
+/* reels: a playing <video> on iPhone grabs the touch itself, so the swipe never reached the track. The video
+   ignores touches now and the swipe lands on the card (nothing on the video was tappable anyway) */
+.reel-v video{pointer-events:none;-webkit-user-select:none;user-select:none}
+.reel-v{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+/* reviews on phones: the row drifts slowly on its own (house drift pattern); a touch hands it to the thumb */
+@media (max-width:760px){
+  .marquee.drift{scroll-snap-type:none}
+  .marquee.drift .track{transform:translate3d(calc(var(--dx,0)*-1px),0,0);transition:none}
+  .marquee.drift .track .rv[aria-hidden]{display:flex}
+}
