@@ -32,7 +32,7 @@ function src(p){return '/ms-tree-preview/assets/img/w-'+p.stem+'.webp'}function 
 /* bento: the best, biggest photos get the big tiles; small sources never do */
 /* home preview: a fixed rectangle, big tiles on two corners (the second big = the next big landscape that isn't the opening shot's twin) */
 var big2=-1;if(!full){for(var k=2;k<P.length;k++){if(P[k].w>=1400&&P[k].w/P[k].h>1.2){big2=k;break}}}
-function tile(p,i){if(!full)return i===0?'p-big1':(i===big2?'p-big2':'');var r=p.w/p.h;if(i<4&&p.w>=1400)return 'b-big';if(r>1.25&&p.w>=1200)return 'b-wide';if(r<.8)return 'b-tall';return ''}
+function tile(p,i){if(g.classList.contains('tp'))return '';if(!full)return i===0?'p-big1':(i===big2?'p-big2':'');var r=p.w/p.h;if(i<4&&p.w>=1400)return 'b-big';if(r>1.25&&p.w>=1200)return 'b-wide';if(r<.8)return 'b-tall';return ''}
 P.forEach(function(p,i){h+='<button type="button" class="'+tile(p,i)+'" data-i="'+i+'" aria-label="'+esc(p.alt)+'"><img src="/ms-tree-preview/assets/img/m-'+p.stem+'.webp" alt="'+esc(p.alt)+'" loading="'+(i<6?'eager':'lazy')+'" decoding="async" width="'+p.mw+'" height="'+p.mh+'"></button>';if(i<12&&!full)dh+='<i'+(i?'':' class="on"')+'></i>'});
 g.innerHTML=h;if(d)d.innerHTML=dh;
 var dots=d?[].slice.call(d.children):[];
@@ -121,3 +121,8 @@ function upd(){tick=false;var m=innerHeight*0.62;
   st.forEach(function(s){s.classList.toggle('lit',s.getBoundingClientRect().top+37<m)});
   bars.forEach(function(b){var r=b.getBoundingClientRect(),f=r.height?(m-r.top)/r.height:0;b.style.setProperty('--f',Math.max(0,Math.min(1,f)).toFixed(3))})}
 addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(upd)}},{passive:true});addEventListener('resize',upd);upd()})();
+
+/* sticky phone bar: hidden until the hero has scrolled out of view (Jeffrey 10/11/26) */
+(function(){var bar=document.querySelector('.mbar'),h=document.querySelector('.hero,.phero');if(!bar)return;
+if(!h||!('IntersectionObserver' in window)){bar.classList.add('on');return}
+new IntersectionObserver(function(es){es.forEach(function(e){bar.classList.toggle('on',!e.isIntersecting&&e.boundingClientRect.top<0)})},{threshold:0}).observe(h)})();
