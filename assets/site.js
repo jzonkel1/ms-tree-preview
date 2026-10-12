@@ -126,3 +126,6 @@ addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(u
 (function(){var bar=document.querySelector('.mbar'),h=document.querySelector('.hero,.phero');if(!bar)return;
 if(!h||!('IntersectionObserver' in window)){bar.classList.add('on');return}
 new IntersectionObserver(function(es){es.forEach(function(e){bar.classList.toggle('on',!e.isIntersecting&&e.boundingClientRect.top<0)})},{threshold:0}).observe(h)})();
+
+/* maps: the Google embed pulls ~300KB of script, so it only loads when scrolled near (10/12 speed pass) */
+(function(){var f=document.querySelectorAll("iframe[data-src]");if(!f.length)return;function go(i){if(!i.getAttribute("src"))i.src=i.dataset.src}if(!("IntersectionObserver" in window)){f.forEach(go);return}var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){go(e.target);io.unobserve(e.target)}})},{rootMargin:"400px 0px"});f.forEach(function(i){io.observe(i)})})();
