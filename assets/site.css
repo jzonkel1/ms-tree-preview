@@ -874,6 +874,10 @@ h1,h2,.h2{text-wrap:balance}
 /* <picture> wrappers (phone hero crops, photo bands) must fill their box like the bare <img> did */
 .phero-media picture,.cta-band-bg picture{display:block;width:100%;height:100%}
 
+/* home hero: slide in without the opacity fade. Faded-out text isn't painted, so the fade was pushing
+   the page's largest paint ~1.2s later on phones (Lighthouse LCP). The motion stays, the wait goes. */
+.hero .rv-up{opacity:1}
+
 /* ================= Brand C (Jeffrey 10/8) =================
    Headlines in the logo's poster serif (FB cover, business card); accents in the truck orange.
    Abril only at headline sizes, never body or small UI text. */
