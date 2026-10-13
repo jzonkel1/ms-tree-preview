@@ -930,6 +930,17 @@ h1,h2,.h2{text-wrap:balance}
   .marquee.drift .track{transform:translate3d(calc(var(--dx,0)*-1px),0,0);transition:none}
   .marquee.drift .track .rv[aria-hidden]{display:flex}
 }
+/* quote wizard: solid pictograms on the service + timing answers (towns stay text) */
+.qw-opts.has-ic .qw-opt{display:flex;align-items:center;gap:10px;padding:10px 12px}
+.qw-ic{width:26px;height:26px;flex:none;fill:var(--truck);transition:fill .15s}
+.qw-opt.sel .qw-ic{fill:var(--paper)}
+.qw-opt span{min-width:0}
+@media (max-width:440px){.qw-opts.has-ic .qw-opt{gap:8px;padding:10px 9px;font-size:14.5px;letter-spacing:-.005em}.qw-ic{width:24px;height:24px}}
+@media (max-width:440px){
+  /* two-column service answers on phones: icon on top, label under it (no squeezed two-line labels) */
+  .qw-opts.cols2.has-ic .qw-opt{flex-direction:column;justify-content:center;text-align:center;gap:6px;padding:12px 6px 11px;font-size:15px}
+  .qw-opts.cols2.has-ic .qw-ic{width:30px;height:30px}
+}
 
 /* ================= Brand C (Jeffrey 10/8) =================
    Headlines in the logo's poster serif (FB cover, business card); accents in the truck orange.
