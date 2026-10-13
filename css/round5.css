@@ -101,3 +101,46 @@
   .qw-opts.cols2.has-ic .qw-opt{flex-direction:column;justify-content:center;text-align:center;gap:6px;padding:12px 6px 11px;font-size:15px}
   .qw-opts.cols2.has-ic .qw-ic{width:30px;height:30px}
 }
+
+/* round 8 (10/12 Jeffrey desktop review): services as an editorial index on desktop. One big pinned photo on the left
+   cross-fades to whichever service is in focus on the right (scroll or hover). Phones/tablets keep the photo cards. */
+.svc-stage,.svc-n{display:none}
+@media (min-width:1024px){
+  .svc-ed{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:72px;align-items:start}
+  .svc-stage{display:block;position:sticky;top:calc(var(--hdr,76px) + 28px);height:min(calc(100vh - 150px),640px);min-height:460px;border-radius:var(--r);overflow:hidden;background:#15281B;box-shadow:var(--sh);isolation:isolate}
+  .svc-stage figure{position:absolute;inset:0;margin:0;opacity:0;transition:opacity .8s ease}
+  .svc-stage figure img{width:100%;height:100%;object-fit:cover;transform:scale(1.07);transition:transform 7s cubic-bezier(.2,.7,.2,1)}
+  .svc-stage figure.on{opacity:1;z-index:1}
+  .svc-stage figure.on img{transform:scale(1)}
+  .svc-stage::after{content:"";position:absolute;left:0;right:0;bottom:0;height:42%;z-index:2;background:linear-gradient(0deg,rgba(14,28,19,.72),rgba(14,28,19,0));pointer-events:none}
+  .svc-cap{position:absolute;left:30px;bottom:24px;z-index:3;color:var(--paper);display:flex;align-items:baseline;gap:10px}
+  .svc-cap b{font:400 64px/1 var(--f-logo)}
+  .svc-cap span{font:600 15px var(--f-body);letter-spacing:.12em;opacity:.8}
+  .svc-ed .svc-grid,.svc-grid:has(>.svc:nth-child(7):last-child){display:block;max-width:none;margin:0}
+  .svc-ed .svc{display:block;background:none;border:0;border-top:1px solid var(--line-2);border-radius:0;box-shadow:none;padding:28px 0;transform:none!important;overflow:visible}
+  .svc-ed .svc:hover{box-shadow:none}
+  .svc-ed .svc:last-child{border-bottom:1px solid var(--line-2)}
+  .svc-ed .svc figure{display:none}
+  .svc-ed .svc-body{padding:0;display:grid;grid-template-columns:62px minmax(0,1fr);column-gap:16px}
+  .svc-ed .svc-body>*{grid-column:2;transition:opacity .4s ease,color .3s ease}
+  .svc-ed .svc-n{display:block;grid-column:1;grid-row:1/span 3;font:400 30px/1 var(--f-logo);color:var(--truck);padding-top:7px}
+  .svc-ed .svc h3{font-size:clamp(30px,2.6vw,40px);line-height:1.05}
+  .svc-ed .svc p{font-size:17px;line-height:1.6;max-width:470px;margin-top:10px;flex:none}
+  .svc-ed .svc .more{margin-top:14px}
+  .svc-ed.js .svc:not(.on) .svc-body>*{opacity:.4}
+  .svc-ed.js .svc.on .more svg{transform:translateX(4px)}
+}
+/* phone hero: the tree being cut keeps going down past the cream wash. A cut-out of its two trunks (tools/trunk/)
+   sits above the wash, moves with the photo's slow zoom, and fades out before the buttons */
+.hero-trunk{display:none}
+@media (max-width:760px){
+  .hero-trunk{display:block;position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;
+    -webkit-mask-image:linear-gradient(0deg,transparent 0,transparent 250px,rgba(0,0,0,.3) 330px,rgba(0,0,0,.62) 430px,rgba(0,0,0,.8) 540px,#000 680px);
+            mask-image:linear-gradient(0deg,transparent 0,transparent 250px,rgba(0,0,0,.3) 330px,rgba(0,0,0,.62) 430px,rgba(0,0,0,.8) 540px,#000 680px)}
+  .hero-trunk img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;transform-origin:50% 30%;animation:kb 28s ease-out forwards;
+    filter:drop-shadow(0 0 1px rgba(31,58,39,.55)) drop-shadow(0 0 6px rgba(31,58,39,.18))}
+  .hero::before{background:
+    linear-gradient(180deg,rgba(236,231,218,.85) 0,rgba(236,231,218,.5) 46px,rgba(236,231,218,0) 100px),
+    linear-gradient(0deg,var(--paper) 0,var(--paper) 330px,rgba(236,231,218,.86) 430px,rgba(236,231,218,.66) 530px,rgba(236,231,218,0) 640px)}
+}
+@media (max-width:760px) and (prefers-reduced-motion:reduce){.hero-trunk img{animation:none}}

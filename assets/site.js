@@ -44,6 +44,14 @@ function tick(n){if(!run){last=0;return}
   last=n;requestAnimationFrame(tick)}
 new IntersectionObserver(function(es){es.forEach(function(e){var was=run;run=e.isIntersecting;if(run&&!was)requestAnimationFrame(tick)})},{threshold:.3}).observe(row)})();
 
+/* services, desktop: the pinned photo follows the service in focus (the row crossing mid-screen, or the hovered one) */
+(function(){document.querySelectorAll('.svc-ed').forEach(function(ed){var st=ed.querySelector('.svc-stage');if(!st||!('IntersectionObserver' in window))return;
+var rows=[].slice.call(ed.querySelectorAll('.svc')),figs=[].slice.call(st.querySelectorAll('figure')),cap=st.querySelector('.svc-cap b'),cur=-1;
+function set(i){if(i===cur||!figs[i])return;cur=i;rows.forEach(function(r,j){r.classList.toggle('on',j===i)});figs.forEach(function(f,j){f.classList.toggle('on',j===i)});cap.textContent=(i<9?'0':'')+(i+1)}
+ed.classList.add('js');set(0);
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)set(+e.target.dataset.i)})},{rootMargin:'-46% 0px -50% 0px'});
+rows.forEach(function(r){io.observe(r);r.addEventListener('mouseenter',function(){set(+r.dataset.i)});r.addEventListener('focus',function(){set(+r.dataset.i)})})})})();
+
 /* gallery + lightbox */
 (function(){var g=document.getElementById('gal'),P=window.GAL||[];if(!g||!P.length)return;
 var lim=+g.dataset.limit||P.length,full=g.classList.contains('open');P=P.slice(0,Math.max(lim,full?P.length:lim));
