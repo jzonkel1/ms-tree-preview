@@ -985,6 +985,96 @@ h1,h2,.h2{text-wrap:balance}
 }
 @media (max-width:760px) and (prefers-reduced-motion:reduce){.hero-trunk img{animation:none}}
 
+/* round 9 (10/12 Jeffrey desktop review) */
+/* cleanup: the brown street shot fought the green; now a bright action shot, shown at its real 4:3 shape with a quiet
+   caption under it instead of a pill on top */
+.clean{grid-template-columns:1.1fr 1fr;gap:72px}
+.clean-img img,.clean-img picture{aspect-ratio:4/3}
+.clean-img img{border-radius:14px;box-shadow:0 30px 60px -30px rgba(0,0,0,.55)}
+.clean-img figcaption{position:static;background:none;backdrop-filter:none;padding:14px 2px 0;font-size:13.5px;color:var(--khaki-2);letter-spacing:.02em}
+.clean-img figcaption::before{content:"";display:inline-block;width:22px;height:1.5px;background:var(--khaki);vertical-align:4px;margin-right:10px}
+/* equipment: real photos, big. Phones/tablets: photo tiles with the name over the picture */
+.eq{gap:14px}
+.eq figure{position:relative;border:0;border-radius:14px;overflow:hidden;background:#15281B;aspect-ratio:4/5;cursor:pointer;outline:none}
+.eq figure img{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;object-fit:cover;object-position:var(--fx,50%) 50%;transition:transform 1.4s cubic-bezier(.2,.7,.2,1),filter .6s ease}
+.eq figure::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,22,14,.88) 0%,rgba(10,22,14,.35) 38%,rgba(10,22,14,0) 62%);pointer-events:none}
+.eq figcaption{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:16px 16px 17px}
+.eq b{color:var(--paper);font:400 22px/1.1 var(--f-logo)}
+.eq span{color:rgba(236,231,218,.82);font-size:13.5px;line-height:1.45;margin-top:6px}
+.eq figure:focus-visible{box-shadow:0 0 0 3px var(--khaki)}
+@media (min-width:1024px){
+  .eq{display:flex;height:540px;gap:14px}
+  .eq figure{flex:1 1 0;min-width:0;aspect-ratio:auto;transition:flex-grow .75s cubic-bezier(.2,.8,.2,1)}
+  .eq figure.on{flex-grow:3.4}
+  .eq figure:not(.on) img{filter:saturate(.7) brightness(.78)}
+  .eq figure.on img{transform:scale(1.03)}
+  .eq figcaption{padding:26px 28px 28px}
+  .eq b{font-size:26px;white-space:nowrap;transition:font-size .5s ease}
+  .eq figure.on b{font-size:38px}
+  .eq span{font-size:16px;max-width:420px;opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease;white-space:nowrap}
+  .eq figure.on span{opacity:1;transform:none;transition-delay:.25s;white-space:normal}
+  .eq figure:not(.on) b{white-space:normal}
+}
+/* trust strip: the star hangs off the right of "5.0" so the number itself is centred over its label */
+.strip b{position:relative}
+.strip b i{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:.12em}
+.strip b{display:table;margin-left:auto;margin-right:auto}
+/* phone hero trunks: stronger behind the headline and carried further down, fading out behind the paragraph */
+@media (max-width:760px){
+  .hero-trunk{-webkit-mask-image:linear-gradient(0deg,transparent 0,transparent 190px,rgba(0,0,0,.35) 260px,rgba(0,0,0,.62) 340px,rgba(0,0,0,.92) 420px,#000 500px);
+                      mask-image:linear-gradient(0deg,transparent 0,transparent 190px,rgba(0,0,0,.35) 260px,rgba(0,0,0,.62) 340px,rgba(0,0,0,.92) 420px,#000 500px)}
+  .hero-trunk img{filter:drop-shadow(0 0 1px rgba(31,58,39,.7)) drop-shadow(0 0 5px rgba(31,58,39,.22)) contrast(1.06)}
+}
+
+/* reels (round 9): one clip in focus. Native scroll-snap row; side clips smaller and dimmed */
+#reels .sec-head{margin-bottom:34px}
+.rl-wrap{position:relative;--rw:340px}
+.rl-row{display:flex;gap:22px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;
+  padding:6px calc(50% - var(--rw)/2) 10px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(90deg,transparent,#000 14%,#000 86%,transparent)}
+.rl-row::-webkit-scrollbar{display:none}
+.rl{flex:0 0 var(--rw);margin:0;scroll-snap-align:center;scroll-snap-stop:always;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .5s ease}
+.rl:not(.on){transform:scale(.84);opacity:.42}
+.rl-v{position:relative;aspect-ratio:9/16;border-radius:16px;overflow:hidden;background:#15281B;cursor:pointer;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.rl.on .rl-v{box-shadow:0 34px 60px -30px rgba(20,34,24,.6)}
+.rl-v video{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.rl-fs{position:absolute;right:12px;bottom:12px;width:44px;height:44px;border-radius:50%;border:0;display:grid;place-items:center;background:rgba(14,28,19,.62);color:var(--paper);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);cursor:pointer;opacity:0;transition:opacity .3s}
+.rl.on .rl-fs{opacity:1}
+.rl-fs svg{width:20px;height:20px}
+.rl figcaption{margin-top:14px;text-align:center;font-size:15px;color:var(--muted);opacity:0;transition:opacity .4s}
+.rl.on figcaption{opacity:1}
+.rl-nav{position:absolute;top:calc(50% - 40px);z-index:3;width:52px;height:52px;border-radius:50%;border:1px solid var(--line-2);background:rgba(247,244,236,.96);color:var(--forest);display:grid;place-items:center;cursor:pointer;box-shadow:var(--sh);transition:opacity .2s}
+.rl-nav svg{width:20px;height:20px}
+.rl-nav:disabled{opacity:.35;cursor:default}
+.rl-nav.prev{left:calc(50% - var(--rw)/2 - 92px)}.rl-nav.next{right:calc(50% - var(--rw)/2 - 92px)}
+.rl-count{text-align:center;margin-top:16px;font:600 13px var(--f-body);letter-spacing:.14em;color:var(--muted)}
+.rl-count b{color:var(--forest)}
+@media (max-width:760px){
+  .rl-wrap{--rw:min(66vw,280px)}
+  .rl-row{gap:12px;-webkit-mask-image:none;mask-image:none}
+  .rl:not(.on){transform:scale(.88);opacity:.5}
+  .rl-nav{display:none}
+  .rl figcaption{font-size:14px}
+}
+/* desktop hero wizard (round 9): bigger card, bigger answers and icons */
+@media (min-width:1100px){
+  .hero-grid{grid-template-columns:minmax(0,1fr) 480px;gap:52px}
+  .qw-hero{padding:32px 32px 26px}
+  .qw-hero .qw-title{font-size:30px}
+  .qw-hero .qw-q{font-size:22px;margin-bottom:14px}
+  .qw-hero .qw-opts{gap:10px}
+  .qw-hero .qw-opts.has-ic .qw-opt{min-height:64px;padding:12px 14px;gap:12px;font-size:16.5px}
+  .qw-hero .qw-ic{width:36px;height:36px}
+  /* FREE sticker: a touch bigger, and the small words pulled in so they clear the dashed ring */
+  .hero-wiz .sticker.sticker-form{width:146px;height:146px;top:-66px;left:-74px}
+  .sticker-form b{font-size:29px}
+  .sticker-form span{font-size:9px;letter-spacing:.07em;line-height:1.35;margin-top:4px}
+  .sticker-form::after{inset:14px}
+  .qw-hero .qw-head{padding-left:70px}
+}
+@media (min-width:1280px){.hero-grid{grid-template-columns:minmax(0,1fr) 520px}}
+.qw-opts.has-ic .qw-ic{width:30px;height:30px}
+@media (min-width:1100px){.qw-hero .qw-opts.has-ic .qw-ic{width:36px;height:36px}}
+
 /* ================= Brand C (Jeffrey 10/8) =================
    Headlines in the logo's poster serif (FB cover, business card); accents in the truck orange.
    Abril only at headline sizes, never body or small UI text. */

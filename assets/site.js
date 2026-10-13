@@ -52,6 +52,11 @@ ed.classList.add('js');set(0);
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)set(+e.target.dataset.i)})},{rootMargin:'-46% 0px -50% 0px'});
 rows.forEach(function(r){io.observe(r);r.addEventListener('mouseenter',function(){set(+r.dataset.i)});r.addEventListener('focus',function(){set(+r.dataset.i)})})})})();
 
+/* equipment panels (desktop): the one hovered, tapped or focused opens wide */
+(function(){var eq=document.querySelector('.eq');if(!eq)return;var f=[].slice.call(eq.querySelectorAll('figure'));
+function set(x){f.forEach(function(g){g.classList.toggle('on',g===x)})}
+f.forEach(function(g){g.addEventListener('mouseenter',function(){set(g)});g.addEventListener('focus',function(){set(g)});g.addEventListener('click',function(){set(g)})})})();
+
 /* gallery + lightbox */
 (function(){var g=document.getElementById('gal'),P=window.GAL||[];if(!g||!P.length)return;
 var lim=+g.dataset.limit||P.length,full=g.classList.contains('open');P=P.slice(0,Math.max(lim,full?P.length:lim));
@@ -79,32 +84,33 @@ function end(e){if(!down)return;down=false;if(dx<-60)go(cur+1);else if(dx>60)go(
 lt.addEventListener('pointerup',end);lt.addEventListener('pointercancel',end);
 })();
 
-/* reels: paged carousel with every slide mounted; play on-screen, pause off-screen */
-(function(){document.querySelectorAll('.reels').forEach(function(root){
-var track=root.querySelector('.reels-track'),slides=[].slice.call(track.children),prev=root.querySelector('.prev'),next=root.querySelector('.next'),
-dotsEl=root.parentNode.querySelector('.reels-dots'),page=0,per=4,GAP=18;
-function perView(){return matchMedia('(min-width:1024px)').matches?4:matchMedia('(min-width:640px)').matches?2:1}
-function pages(){return Math.max(1,Math.ceil(slides.length/per))}
-function draw(){per=perView();if(page>pages()-1)page=pages()-1;
-track.style.transform='translateX(calc(-'+page+' * (100% + '+GAP+'px)))';
-prev.disabled=page===0;next.disabled=page>=pages()-1;
-var h='';for(var i=0;i<pages();i++)h+='<i'+(i===page?' class="on"':'')+' data-p="'+i+'"></i>';dotsEl.innerHTML=h}
-prev.onclick=function(){page--;draw()};next.onclick=function(){page++;draw()};
-dotsEl.addEventListener('click',function(e){var p=e.target.dataset.p;if(p!=null){page=+p;draw()}});
-/* finger-follow swipe: the track moves with the thumb, then settles on a page */
-var sx=null,sy=0,dx=0,horiz=null;
-function base(){return 'translateX(calc(-'+page+' * (100% + '+GAP+'px)))'}
-track.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY;dx=0;horiz=null},{passive:true});
-track.addEventListener('touchmove',function(e){if(sx==null)return;var x=e.touches[0].clientX-sx,y=e.touches[0].clientY-sy;
-  if(horiz===null&&(Math.abs(x)>6||Math.abs(y)>6))horiz=Math.abs(x)>Math.abs(y);if(!horiz)return;
-  dx=x;if((page===0&&dx>0)||(page>=pages()-1&&dx<0))dx=dx/3;track.style.transition='none';track.style.transform=base()+' translateX('+dx+'px)'},{passive:true});
-function endSwipe(){if(sx==null)return;sx=null;track.style.transition='';if(horiz){if(dx<-40&&page<pages()-1)page++;else if(dx>40&&page>0)page--}draw()}
-track.addEventListener('touchend',endSwipe);track.addEventListener('touchcancel',endSwipe);
-addEventListener('resize',draw);draw();
-var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-var io=new IntersectionObserver(function(en){en.forEach(function(e){var v=e.target;
-if(e.isIntersecting){if(!v.src)v.src=v.dataset.src;if(!reduce){var p=v.play();if(p)p.catch(function(){})}}else v.pause()})},{threshold:.25});
-slides.forEach(function(s){io.observe(s.querySelector('video'))});
+/* reels (round 9): native scroll-snap row. The clip nearest the centre is "on": it plays, the rest pause.
+   Tap the centred clip for full screen with sound (iPhone: the video's own player); tap a side clip to bring it in. */
+(function(){document.querySelectorAll('.rl-wrap').forEach(function(w){
+var row=w.querySelector('.rl-row'),cards=[].slice.call(row.children),prev=w.querySelector('.prev'),next=w.querySelector('.next'),
+cnt=w.parentNode.querySelector('.rl-count b'),cur=-1,seen=false,tick=false,reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+function vid(c){return c.querySelector('video')}
+function load(c){var v=vid(c);if(v&&!v.src)v.src=v.dataset.src}
+function center(c){return c.offsetLeft+c.offsetWidth/2-row.clientWidth/2}
+function go(k,smooth){k=Math.max(0,Math.min(cards.length-1,k));row.scrollTo({left:center(cards[k]),behavior:smooth===false?'auto':'smooth'})}
+function play(){cards.forEach(function(c,k){var v=vid(c);if(k===cur&&seen&&!reduce){load(c);var p=v.play();if(p)p.catch(function(){})}else if(!v.paused)v.pause()})}
+function pick(){tick=false;var mid=row.scrollLeft+row.clientWidth/2,best=0,bd=1e9;
+  cards.forEach(function(c,k){var d=Math.abs(c.offsetLeft+c.offsetWidth/2-mid);if(d<bd){bd=d;best=k}});
+  if(best===cur)return;cur=best;cards.forEach(function(c,k){c.classList.toggle('on',k===cur)});
+  if(cards[cur+1])load(cards[cur+1]);
+  prev.disabled=cur===0;next.disabled=cur===cards.length-1;if(cnt)cnt.textContent=cur+1;play()}
+row.addEventListener('scroll',function(){if(!tick){tick=true;requestAnimationFrame(pick)}},{passive:true});
+prev.onclick=function(){go(cur-1)};next.onclick=function(){go(cur+1)};
+function full(c){var v=vid(c);load(c);v.muted=false;v.controls=true;var p=v.play();if(p)p.catch(function(){});
+  try{if(v.requestFullscreen)v.requestFullscreen().catch(function(){if(v.webkitEnterFullscreen)v.webkitEnterFullscreen()});else if(v.webkitEnterFullscreen)v.webkitEnterFullscreen()}catch(e){}}
+function back(v){v.muted=true;v.controls=false;play()}
+cards.forEach(function(c,k){var v=vid(c);
+  c.querySelector('.rl-v').addEventListener('click',function(e){if(k!==cur){e.preventDefault();go(k);return}full(c)});
+  v.addEventListener('webkitendfullscreen',function(){back(v)})});
+document.addEventListener('fullscreenchange',function(){if(!document.fullscreenElement)cards.forEach(function(c){var v=vid(c);if(!v.muted)back(v)})});
+addEventListener('resize',function(){go(cur,false)});
+go(0,false);requestAnimationFrame(pick);
+if('IntersectionObserver' in window)new IntersectionObserver(function(es){es.forEach(function(e){seen=e.isIntersecting;play()})},{threshold:.35}).observe(row);
 })})();
 
 /* quote wizard -> Netlify Forms (ms-quote). Confirmation only after a 2xx. */
