@@ -116,16 +116,17 @@ urgent=f.querySelector('.qw-urgent'),err=f.querySelector('.form-err'),btn=f.quer
 f.querySelector('[name=page]').value=location.pathname;
 function show(n,focus){cur=n;steps.forEach(function(s){s.classList.toggle('on',+s.dataset.step===n)});
 lbl.textContent='Step '+n+' of '+N;bar.style.width=(n/N*100)+'%';back.hidden=n===1;
-if(n===N){urgent.hidden=!/emergency/i.test(f.elements.timing.value);if(focus){var i=f.querySelector('[name=name]');setTimeout(function(){i.focus({preventScroll:true})},60)}}}
-function next(){var n=cur+1;while(n<N&&f.elements[['','service','timing','town'][n]]&&f.elements[['','service','timing','town'][n]].dataset.skip)n++;show(n,true)}
+if(n===N){urgent.hidden=!/storm/i.test(f.elements.service.value);if(focus){var i=f.querySelector('[name=name]');setTimeout(function(){i.focus({preventScroll:true})},60)}}}
+function fld(n){var s=steps[n-1];return s&&s.dataset.field?f.elements[s.dataset.field]:null}
+function next(){var n=cur+1;while(n<N&&fld(n)&&fld(n).dataset.skip)n++;show(n,true)}
 f.querySelectorAll('.qw-opt').forEach(function(o){o.addEventListener('click',function(){
   var fld=o.dataset.field;f.elements[fld].value=o.dataset.value;
   f.querySelectorAll('.qw-opt[data-field="'+fld+'"]').forEach(function(x){x.classList.toggle('sel',x===o)});
   setTimeout(next,230)})});
-back.onclick=function(){var n=cur-1;while(n>1&&f.elements[['','service','timing','town'][n]].dataset.skip)n--;show(n)};
+back.onclick=function(){var n=cur-1;while(n>1&&fld(n)&&fld(n).dataset.skip)n--;show(n)};
 /* presets from service/town pages: answer and skip that question */
 [['service',f.dataset.presetService],['town',f.dataset.presetTown]].forEach(function(p){if(!p[1])return;var o=f.querySelector('.qw-opt[data-field="'+p[0]+'"][data-value="'+p[1]+'"]');if(o){o.classList.add('sel');f.elements[p[0]].value=p[1];f.elements[p[0]].dataset.skip='1'}});
-if(f.elements.service.dataset.skip)show(2);
+if(f.elements.service.dataset.skip)show(f.elements.town.dataset.skip?3:2);
 var ph=f.elements.phone,em=f.elements.email;
 ph.addEventListener('input',function(){var v=ph.value.replace(/\D/g,'');if(v.length===11&&v[0]==='1')v=v.slice(1);v=v.slice(0,10);
   ph.value=v.length>6?'('+v.slice(0,3)+') '+v.slice(3,6)+'-'+v.slice(6):v.length>3?'('+v.slice(0,3)+') '+v.slice(3):v;});
