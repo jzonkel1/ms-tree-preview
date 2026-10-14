@@ -1110,6 +1110,30 @@ h1 .boxed,h2 .boxed,h3 .boxed,.h2 .boxed{margin-top:.2em}
 /* sticky bar on phones: Free estimate is the main button */
 .mbar a.est{flex:1.5;background:var(--forest);color:var(--paper)}
 
+/* before/after slider: the before image is clipped at --p from the left; drag anywhere on the photo */
+.ba-wrap{display:grid;grid-template-columns:1fr minmax(0,520px);gap:64px;align-items:center}
+.ba-hint{display:flex;align-items:center;gap:8px;margin-top:18px;font:600 14.5px var(--f-body);color:var(--forest-3)}
+.ba-hint svg{width:16px;height:16px}
+.ba{position:relative;margin:0;aspect-ratio:4/5;border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:ew-resize;background:var(--paper-2)}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.ba-before{clip-path:inset(0 calc(100% - var(--p)) 0 0)}
+.ba-line{position:absolute;top:0;bottom:0;left:var(--p);width:3px;margin-left:-1.5px;background:var(--paper);box-shadow:0 0 0 1px rgba(27,42,31,.15)}
+.ba-line i{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:2px;padding:0 10px;height:46px;border-radius:23px;background:var(--forest);color:var(--paper);box-shadow:0 8px 20px -6px rgba(27,42,31,.6)}
+.ba-line svg{width:15px;height:15px}
+.ba-tag{position:absolute;top:14px;padding:6px 11px;border-radius:8px;background:rgba(21,40,27,.82);color:var(--paper);font:600 12.5px var(--f-body);letter-spacing:.04em}
+.ba-tag-b{left:14px}.ba-tag-a{right:14px}
+.ba-range{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.ba:has(.ba-range:focus-visible) .ba-line i{outline:3px solid var(--truck);outline-offset:2px}
+/* each label rides with its own photo, so the line wipes it away instead of cutting through it */
+.ba-lay{position:absolute;inset:0;pointer-events:none}
+.ba-lay-b{clip-path:inset(0 calc(100% - var(--p)) 0 0)}
+.ba-lay-a{clip-path:inset(0 0 0 var(--p))}
+@media (max-width:900px){
+  .ba-wrap{grid-template-columns:1fr;gap:28px;text-align:center}
+  .ba-copy .eyebrow,.ba-hint{justify-content:center}
+  .ba{max-width:440px;width:100%;margin:0 auto}
+}
+
 /* ================= Brand C (Jeffrey 10/8) =================
    Headlines in the logo's poster serif (FB cover, business card); accents in the truck orange.
    Abril only at headline sizes, never body or small UI text. */

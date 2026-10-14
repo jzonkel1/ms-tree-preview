@@ -184,3 +184,14 @@ new IntersectionObserver(function(es){es.forEach(function(e){bar.classList.toggl
     new IntersectionObserver(function(es){es.forEach(function(e){var was=run;run=e.isIntersecting;if(run&&!was)requestAnimationFrame(tick)})},{threshold:.3}).observe(row);
   });
 })();
+
+/* before/after: drag or tap anywhere on the photo; the hidden range keeps it keyboard + screen-reader friendly */
+(function(){document.querySelectorAll('.ba').forEach(function(f){var r=f.querySelector('.ba-range'),down=false,sx=0,sy=0,horiz=null;
+function set(v){v=Math.max(0,Math.min(100,v));f.style.setProperty('--p',v+'%');r.value=Math.round(v)}
+function at(x){var b=f.getBoundingClientRect();return (x-b.left)/b.width*100}
+f.addEventListener('pointerdown',function(e){down=true;sx=e.clientX;sy=e.clientY;horiz=e.pointerType==='mouse'?true:null;if(horiz)set(at(e.clientX))});
+f.addEventListener('pointermove',function(e){if(!down)return;if(horiz===null){var dx=Math.abs(e.clientX-sx),dy=Math.abs(e.clientY-sy);if(dx<6&&dy<6)return;horiz=dx>dy;if(!horiz){down=false;return}try{f.setPointerCapture(e.pointerId)}catch(_){}}set(at(e.clientX))});
+function up(e){if(down&&horiz===null)set(at(e.clientX));down=false}
+f.addEventListener('pointerup',up);f.addEventListener('pointercancel',function(){down=false});
+r.addEventListener('input',function(){set(+r.value)});
+})})();
