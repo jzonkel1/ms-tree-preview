@@ -245,3 +245,10 @@
   .drift>*{transform:translate3d(calc(var(--dx,0)*-1px),0,0)!important;transition:none!important}
   .drift>figure.is-clone{display:block!important}
 }
+
+/* wide wizard icon (brush hauling): a wider box, same visual height as its neighbours; negative side margins keep the label in line */
+.qw-opts.has-ic .qw-ic.qw-ic-w{width:42px;height:20px;margin:5px -6px}
+@media (min-width:1100px){.qw-hero .qw-opts.has-ic .qw-ic.qw-ic-w{width:51px;height:24px;margin:6px -7.5px}}
+@media (min-width:1100px){.qw-hero .qw-opts.has-ic .qw-ic.qw-ic-w{margin:6px -3px 6px -12px}}
+@media (max-width:440px){.qw-opts.cols2.has-ic .qw-ic.qw-ic-w{width:56px;height:27px;margin:1.5px 0}}
+@media (min-width:1100px){.qw-hero .qw-opts.has-ic .qw-ic.qw-ic-w{margin:6px -5px 6px -6px}}
