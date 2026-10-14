@@ -988,33 +988,11 @@ h1,h2,.h2{text-wrap:balance}
 /* round 9 (10/12 Jeffrey desktop review) */
 /* cleanup: the brown street shot fought the green; now a bright action shot, shown at its real 4:3 shape with a quiet
    caption under it instead of a pill on top */
-.clean{grid-template-columns:1.1fr 1fr;gap:72px}
+@media (min-width:1041px){.clean{grid-template-columns:1.1fr 1fr;gap:72px}}
 .clean-img img,.clean-img picture{aspect-ratio:4/3}
 .clean-img img{border-radius:14px;box-shadow:0 30px 60px -30px rgba(0,0,0,.55)}
 .clean-img figcaption{position:static;background:none;backdrop-filter:none;padding:14px 2px 0;font-size:13.5px;color:var(--khaki-2);letter-spacing:.02em}
 .clean-img figcaption::before{content:"";display:inline-block;width:22px;height:1.5px;background:var(--khaki);vertical-align:4px;margin-right:10px}
-/* equipment: real photos, big. Phones/tablets: photo tiles with the name over the picture */
-.eq{gap:14px}
-.eq figure{position:relative;border:0;border-radius:14px;overflow:hidden;background:#15281B;aspect-ratio:4/5;cursor:pointer;outline:none}
-.eq figure img{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;object-fit:cover;object-position:var(--fx,50%) 50%;transition:transform 1.4s cubic-bezier(.2,.7,.2,1),filter .6s ease}
-.eq figure::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,22,14,.88) 0%,rgba(10,22,14,.35) 38%,rgba(10,22,14,0) 62%);pointer-events:none}
-.eq figcaption{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:16px 16px 17px}
-.eq b{color:var(--paper);font:400 22px/1.1 var(--f-logo)}
-.eq span{color:rgba(236,231,218,.82);font-size:13.5px;line-height:1.45;margin-top:6px}
-.eq figure:focus-visible{box-shadow:0 0 0 3px var(--khaki)}
-@media (min-width:1024px){
-  .eq{display:flex;height:540px;gap:14px}
-  .eq figure{flex:1 1 0;min-width:0;aspect-ratio:auto;transition:flex-grow .75s cubic-bezier(.2,.8,.2,1)}
-  .eq figure.on{flex-grow:3.4}
-  .eq figure:not(.on) img{filter:saturate(.7) brightness(.78)}
-  .eq figure.on img{transform:scale(1.03)}
-  .eq figcaption{padding:26px 28px 28px}
-  .eq b{font-size:26px;white-space:nowrap;transition:font-size .5s ease}
-  .eq figure.on b{font-size:38px}
-  .eq span{font-size:16px;max-width:420px;opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease;white-space:nowrap}
-  .eq figure.on span{opacity:1;transform:none;transition-delay:.25s;white-space:normal}
-  .eq figure:not(.on) b{white-space:normal}
-}
 /* trust strip: the star hangs off the right of "5.0" so the number itself is centred over its label */
 .strip b{position:relative}
 .strip b i{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:.12em}
@@ -1074,6 +1052,39 @@ h1,h2,.h2{text-wrap:balance}
 @media (min-width:1280px){.hero-grid{grid-template-columns:minmax(0,1fr) 520px}}
 .qw-opts.has-ic .qw-ic{width:30px;height:30px}
 @media (min-width:1100px){.qw-hero .qw-opts.has-ic .qw-ic{width:36px;height:36px}}
+
+/* equipment (round 10, Jeffrey picked "feature + three"): text never sits on the photos.
+   Desktop: the bucket truck big on the left, the other three as photo + text rows on the right.
+   Tablet: 2x2, caption under each photo. Phones: a drifting swipe row of photo cards, caption under. */
+.is-clone{display:none!important}
+.eq figure{margin:0;background:none;border:0;border-radius:0;overflow:visible;outline:none}
+.eq img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;object-position:var(--fx,50%) 50%;border-radius:14px}
+.eq figcaption{padding:14px 2px 0}
+.eq b{display:block;font:400 24px/1.1 var(--f-logo);color:var(--forest)}
+.eq span{display:block;color:var(--muted);font-size:15px;line-height:1.5;margin-top:6px}
+@media (min-width:1024px){
+  .eq{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);grid-template-rows:repeat(3,auto);gap:26px 44px;align-items:center}
+  .eq figure:first-child{grid-row:1/4;align-self:stretch;display:flex;flex-direction:column}
+  .eq figure:first-child img{flex:1;min-height:0;height:100%;aspect-ratio:auto}
+  .eq figure:first-child figcaption{padding-top:16px}
+  .eq figure:first-child b{font-size:34px}
+  .eq figure:first-child span{font-size:16.5px;max-width:520px}
+  .eq figure:not(:first-child){display:grid;grid-template-columns:200px minmax(0,1fr);gap:22px;align-items:center}
+  .eq figure:not(:first-child) img{border-radius:12px}
+  .eq figure:not(:first-child) figcaption{padding:0}
+}
+@media (max-width:760px){
+  .eq{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;gap:14px;margin:0 -20px;padding:0 20px 4px;scrollbar-width:none}
+  .eq::-webkit-scrollbar{display:none}
+  .eq figure{flex:0 0 76%;scroll-snap-align:center}
+  .eq .rv-up{opacity:1;transform:none}
+  .eq figcaption{text-align:left}
+  .eq b{font-size:22px}
+  .eq span{font-size:14.5px}
+  .drift{scroll-snap-type:none!important}
+  .drift>*{transform:translate3d(calc(var(--dx,0)*-1px),0,0)!important;transition:none!important}
+  .drift>figure.is-clone{display:block!important}
+}
 
 /* ================= Brand C (Jeffrey 10/8) =================
    Headlines in the logo's poster serif (FB cover, business card); accents in the truck orange.

@@ -52,11 +52,6 @@ ed.classList.add('js');set(0);
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)set(+e.target.dataset.i)})},{rootMargin:'-46% 0px -50% 0px'});
 rows.forEach(function(r){io.observe(r);r.addEventListener('mouseenter',function(){set(+r.dataset.i)});r.addEventListener('focus',function(){set(+r.dataset.i)})})})})();
 
-/* equipment panels (desktop): the one hovered, tapped or focused opens wide */
-(function(){var eq=document.querySelector('.eq');if(!eq)return;var f=[].slice.call(eq.querySelectorAll('figure'));
-function set(x){f.forEach(function(g){g.classList.toggle('on',g===x)})}
-f.forEach(function(g){g.addEventListener('mouseenter',function(){set(g)});g.addEventListener('focus',function(){set(g)});g.addEventListener('click',function(){set(g)})})})();
-
 /* gallery + lightbox */
 (function(){var g=document.getElementById('gal'),P=window.GAL||[];if(!g||!P.length)return;
 var lim=+g.dataset.limit||P.length,full=g.classList.contains('open');P=P.slice(0,Math.max(lim,full?P.length:lim));
@@ -163,3 +158,28 @@ new IntersectionObserver(function(es){es.forEach(function(e){bar.classList.toggl
 
 /* maps: the Google embed pulls ~300KB of script, so it only loads when scrolled near (10/12 speed pass) */
 (function(){var f=document.querySelectorAll("iframe[data-src]");if(!f.length)return;function go(i){if(!i.getAttribute("src"))i.src=i.dataset.src}if(!("IntersectionObserver" in window)){f.forEach(go);return}var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){go(e.target);io.unobserve(e.target)}})},{rootMargin:"400px 0px"});f.forEach(function(i){io.observe(i)})})();
+
+/* drift rows (phones): clones + rAF on a CSS var, native swipe takes over on touch (house pattern, as on Ridgewood) */
+(function(){
+  if(!matchMedia('(max-width:760px)').matches||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+  document.querySelectorAll('[data-drift]').forEach(function(row){
+    var kids=[].slice.call(row.children);if(kids.length<3)return;
+    kids.forEach(function(k){var c=k.cloneNode(true);c.classList.add('is-clone','in');c.setAttribute('aria-hidden','true');c.removeAttribute('tabindex');c.querySelectorAll('a,button').forEach(function(x){x.tabIndex=-1});row.appendChild(c)});
+    row.classList.add('drift');
+    var dx=0,last=0,held=false,resume=0,period=1,run=false;
+    function per(){var fc=row.querySelector('.is-clone');period=Math.max(1,fc.offsetLeft-row.firstElementChild.offsetLeft)}
+    per();addEventListener('resize',per);
+    function set(){row.style.setProperty('--dx',dx.toFixed(2))}
+    function hand(){if(dx){row.scrollLeft+=dx;dx=0;set()}held=true}
+    function rel(){held=false;resume=performance.now()+3500}
+    row.addEventListener('touchstart',hand,{passive:true});row.addEventListener('pointerdown',hand);
+    row.addEventListener('touchend',rel,{passive:true});row.addEventListener('pointerup',rel);row.addEventListener('pointercancel',rel);
+    row.addEventListener('scroll',function(){if(!dx)resume=performance.now()+3500},{passive:true});
+    function tick(t){if(!run){last=0;return}
+      if(!held&&t>resume){
+        if(row.scrollLeft>0){dx=row.scrollLeft%period;row.scrollLeft=0}
+        if(last)dx+=(t-last)/1000*18;if(dx>=period)dx-=period;set()}
+      last=t;requestAnimationFrame(tick)}
+    new IntersectionObserver(function(es){es.forEach(function(e){var was=run;run=e.isIntersecting;if(run&&!was)requestAnimationFrame(tick)})},{threshold:.3}).observe(row);
+  });
+})();
